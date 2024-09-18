@@ -1,5 +1,6 @@
 using System.Data.SqlClient;
 using System;
+using Dapper;
 
 namespace bleaf_test_automation.Utils
 {

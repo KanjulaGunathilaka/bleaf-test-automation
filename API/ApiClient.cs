@@ -42,9 +42,9 @@ namespace bleaf_test_automation.API
             return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
-        public async Task DeleteAsync(string endpoint)
+        public async Task<RestResponse> DeleteAsync(string endpoint)
         {
-            await SendAsync(Method.Delete, endpoint);
+            return await SendAsync(Method.Delete, endpoint);
         }
     }
 }

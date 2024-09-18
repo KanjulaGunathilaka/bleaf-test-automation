@@ -12,7 +12,7 @@ namespace bleaf_test_automation.Utils
             Screenshot screenshot = ts.GetScreenshot();
             string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Screenshots", $"{testName}_{DateTime.Now:yyyyMMddHHmmss}.png");
             Directory.CreateDirectory(Path.GetDirectoryName(path));
-            screenshot.SaveAsFile(path, ScreenshotImageFormat.Png);
+            screenshot.SaveAsFile(path);
         }
     }
 }
