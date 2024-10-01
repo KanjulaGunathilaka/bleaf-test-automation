@@ -1,22 +1,24 @@
-﻿using TechTalk.SpecFlow;
+﻿using bleaf_test_automation.TestBase;
 using bleaf_test_automation.Utils;
 
 namespace bleaf_test_automation.Hooks
 {
     [Binding]
-    public class TestHooks
+    public class TestHooks : BaseTest
     {
         [BeforeScenario]
         public void BeforeScenario()
         {
             Logger.LogInfo("Starting scenario...");
+            Setup();
         }
 
         [AfterScenario]
         public void AfterScenario()
         {
             Logger.LogInfo("Ending scenario...");
-            CleanupTestData();
+            TearDown();
+            //CleanupTestData();
         }
 
         private void CleanupTestData()

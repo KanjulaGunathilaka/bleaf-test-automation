@@ -1,7 +1,6 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using bleaf_test_automation.Utils;
-using NUnit.Framework.Interfaces;
 using Drivers;
 
 namespace bleaf_test_automation.TestBase
@@ -10,21 +9,52 @@ namespace bleaf_test_automation.TestBase
     {
         protected IWebDriver Driver;
 
-        [SetUp]
         public void Setup()
         {
-            Driver = BleafWebDriverManager.GetDriver();
-            Driver.Navigate().GoToUrl(ConfigManager.GetConfigValue("ApplicationUrl"));
+            try
+            {
+                Console.WriteLine("Initializing WebDriver...");
+                Driver = BleafWebDriverManager.GetDriver();
+                Driver.Manage().Window.Maximize();
+
+                // Retrieve the URL from the configuration
+                string url = ConfigManager.GetConfigValue("ApplicationUrl");
+                Console.WriteLine($"Retrieved URL from config: {url}");
+
+                // Navigate to the URL
+                Console.WriteLine($"Navigating to URL: {url}");
+                Driver.Navigate().GoToUrl(url);
+
+                // Wait for the page to load completely
+                WaitForPageLoadComplete();
+                Console.WriteLine("Page loaded successfully.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during setup: {ex.Message}");
+                throw;
+            }
         }
 
-        [TearDown]
         public void TearDown()
         {
-            if (TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            try
             {
-                ScreenshotHelper.TakeScreenshot(Driver, TestContext.CurrentContext.Test.Name);
+                if (ScenarioContext.Current.TestError != null)
+                {
+                    ScreenshotHelper.TakeScreenshot(Driver, ScenarioContext.Current.ScenarioInfo.Title);
+                }
             }
-            BleafWebDriverManager.QuitDriver();
+            finally
+            {
+                BleafWebDriverManager.QuitDriver();
+            }
+        }
+
+        private void WaitForPageLoadComplete(int timeoutInSeconds = 30)
+        {
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(timeoutInSeconds));
+            wait.Until(drv => ((IJavaScriptExecutor)drv).ExecuteScript("return document.readyState").Equals("complete"));
         }
     }
 }

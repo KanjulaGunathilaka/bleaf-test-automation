@@ -5,10 +5,10 @@ namespace bleaf_test_automation.Pages
 {
     public class LoginPage : BasePage
     {
-        private readonly By _usernameField = By.Id("UserName");
-        private readonly By _passwordField = By.Id("Password");
-        private readonly By _loginButton = By.XPath("//*[@id='loginForm']/form/div[3]/input[1]");
-        private readonly By _userDashboard = By.Id("userDashboard");
+        private readonly By _usernameField = By.Id("email");
+        private readonly By _passwordField = By.Id("password");
+        private readonly By _loginButton = By.XPath("//*[@id='offcanvasLogin']/div/div/form/button");
+        private readonly By _adminDashboard = By.XPath("//h1[contains(text(),'Admin Panel')]");
 
         public LoginPage() : base() { }
 
@@ -21,8 +21,8 @@ namespace bleaf_test_automation.Pages
 
         public bool IsUserDashboardDisplayed()
         {
-            WaitForElement(_userDashboard);
-            return Driver.FindElement(_userDashboard).Displayed;
+            WaitForElement(_adminDashboard);
+            return Driver.FindElement(_adminDashboard).Displayed;
         }
     }
 }

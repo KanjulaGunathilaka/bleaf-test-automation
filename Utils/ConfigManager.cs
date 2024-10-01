@@ -10,14 +10,16 @@ namespace bleaf_test_automation.Utils
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             _configuration = builder.Build();
         }
 
         public static string GetConfigValue(string key)
         {
-            return _configuration[key];
+            string value = _configuration[key];
+            Console.WriteLine($"Config value for '{key}': {value}");
+            return value;
         }
     }
 }

@@ -1,7 +1,6 @@
-﻿using TechTalk.SpecFlow;
-using NUnit.Framework;
-using bleaf_test_automation.Pages;
+﻿using bleaf_test_automation.Pages;
 using bleaf_test_automation.TestBase;
+using NUnit.Framework;
 
 namespace bleaf_test_automation.StepDefinitions
 {
@@ -14,7 +13,9 @@ namespace bleaf_test_automation.StepDefinitions
         [Given(@"I navigate to the bleaf home page")]
         public void GivenINavigateToTheHomePage()
         {
+            Console.WriteLine("Initializing HomePage...");
             _homePage = new HomePage();
+            Console.WriteLine("HomePage initialized.");
         }
 
         [When(@"I click on the login button")]
@@ -33,14 +34,11 @@ namespace bleaf_test_automation.StepDefinitions
         [Then(@"I (should|should not) see the Admin dashboard link")]
         public void ThenIShouldSeeTheUserDashboard(string visibilityOfLink)
         {
-            if (visibilityOfLink == "should")
-            {
-                Assert.Equals(_loginPage.IsUserDashboardDisplayed(), true);
-            }
-            else
-            {
-                Assert.Equals(_loginPage.IsUserDashboardDisplayed(), false);
-            }
+            bool isDashboardDisplayed = _loginPage.IsUserDashboardDisplayed();
+            bool expectedVisibility = visibilityOfLink == "should";
+
+            Assert.That(isDashboardDisplayed, Is.EqualTo(expectedVisibility),
+                $"Expected the Admin dashboard link to be {(expectedVisibility ? "displayed" : "not displayed")}, but it was {(isDashboardDisplayed ? "displayed" : "not displayed")}.");
         }
     }
 }

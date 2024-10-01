@@ -5,10 +5,10 @@ namespace bleaf_test_automation.Pages
 {
     public class HomePage : BasePage
     {
-        private readonly By _loginButton = By.XPath("//button[@id='loginButton']");
-        private readonly By _logo = By.XPath("//img[@id='logo']");
+        private readonly By _loginButton = By.Id("bleafLoginBtn");
+        private readonly By _logo = By.Id("bleaflogo");
         private readonly By _searchBar = By.XPath("//input[@id='searchBar']");
-        private readonly By _headerPanel = By.XPath("//div[@id='headerPanel']");
+        private readonly By _headerPanel = By.XPath("//div[@class='main-bar clearfix ']");
 
         public HomePage() : base() { }
 
